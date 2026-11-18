@@ -5,5 +5,12 @@ export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
     exclude: ['cubing']
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        inlineDynamicImports: true
+      }
+    }
   }
 })
