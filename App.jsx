@@ -7,6 +7,8 @@ import PBs from './PBs'
 import Popup from './Popup'
 import AlgCard from './AlgCard'
 import HomePage from './HomePage'
+import Progression from './Progression'
+import Tutorials from './Tutorials'
 import './App.css'
 
 function App() {
@@ -23,14 +25,8 @@ function App() {
     })
     const [pb, setPb] = useState(() => {
         const savedTimes = localStorage.getItem('myTimes')
-        if (savedTimes) {
-            return 'findPb'
-        }
-        return '-'
+        if (!savedTimes) return '-'
     })
-    if (pb === 'findPb') {
-        findPb(JSON.parse(localStorage.getItem('myTimes')))
-    }
     const [showPopup, setShowPopup] = useState(false)
     const nextScrambleRef = useRef(null)
   
@@ -46,6 +42,7 @@ function App() {
   
     useEffect(() => {
         localStorage.setItem('myTimes', JSON.stringify(time))
+        findPb(time.map(obj => obj.time))
     }, [time])
     
     function handleReset() {
@@ -55,9 +52,19 @@ function App() {
     }
     
     function handleStop(newTime) {
-        const newTimes = [...time, newTime]
+        const temporaryTimes = [...time.map(obj => obj.time), newTime]
+        let averageOfFive = null
+        if (temporaryTimes.length >= 5) {
+            averageOfFive = (temporaryTimes.slice(-5).sort((a, b) => a - b).slice(1, 4).reduce((sum, currentTime) => sum + currentTime, 0)) / 3
+        }
+        const newObj = {
+            time: newTime,
+            averageOfFive: averageOfFive
+        }
+        const newTimes = [...time, newObj]
+        const onlyTimes = newTimes.map(obj => obj.time)
         setTime(newTimes)
-        findPb(newTimes)
+        findPb(onlyTimes)
         preloadScramble()
     }
   
@@ -170,14 +177,19 @@ function App() {
                         boxShadow: '0 0 30px #666666'
                     }}>
                         <Session times={time} />
-                        <button style={{
+                        <p style={{
                             width: '50px',
                             height: '20px',
                             alignSelf: 'center',
-                            justifySelf: 'center'
-                        }} onClick={() => setShowPopup(true)}>Reset</button>
+                            justifySelf: 'center',
+                            backgroundColor: '#FF0000',
+                            border: 'solid 2px #CC0000',
+                            borderRadius: '5px',
+                            textAlign: 'center',
+                            boxShadow: '0 0 10px #CC0000'
+                        }} onClick={() => setShowPopup(true)}>Reset</p>
                         {showPopup && (
-                            <Popup title='Reset Session' message='Are you sure you want to delete this session?' onConfirm={handleReset} onCancel={() => setShowPopup(false)} />
+                            <Popup title='Reset Session?' message='Are you sure you want to delete this session?' onConfirm={handleReset} onCancel={() => setShowPopup(false)} />
                         )}
                         <PBs pb={pb} />
                     </div>
@@ -297,7 +309,10 @@ function App() {
                         </div>
                     )}
                     {algSet === 'PBL' && (
-                        <div>
+                        <div style={{
+                            maxHeight: '80vh',
+                            overflowY: 'auto'
+                        }}>
                             <AlgCard alg="R2 U' B2 U2' R2' U' R2" name='adjacent-adjacent' algSet='PBL' />
                             <AlgCard alg="R2 B2 R2'" name='diagonal-diagonal' algSet='PBL' />
                             <AlgCard alg="R U' R F2 R' U R'" name='adjacent-diagonal' algSet='PBL' />
@@ -309,12 +324,12 @@ function App() {
             )}
             {page === 'progression' && (
                 <div>
-                    <h1 style={{ color: 'blue', textAlign: 'center' }}>Coming soon!</h1>
+                    <Progression />
                 </div>
             )}
             {page === 'tutorials' && (
                 <div>
-                    <h1 style={{ color: 'yellow', textAlign: 'center' }}>Coming soon!</h1>
+                    <Tutorials />
                 </div>
             )}
         </div>
