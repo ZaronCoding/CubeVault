@@ -43,14 +43,15 @@ function AlgCard({ alg, name, algSet }) {
     return (
         <div style={{
             boxSizing: 'border-box',
-            height: '220px',
+            height: '230px',
             textAlign: 'center',
             backgroundColor: '#222222',
             border: 'solid 2px #226666',
             borderRadius: '15px',
             fontSize: '15px',
             padding: '5px',
-            margin: '2px'
+            margin: '2px',
+            boxShadow: '0 0 20px #556666'
         }}>
             <twisty-player style={{
                 width: '140px',
@@ -59,7 +60,7 @@ function AlgCard({ alg, name, algSet }) {
                 boxShadow: glowColor
             }} alg={alg} experimental-setup-alg={setup} background='none' control-panel='none' hint-facelets='none' visualization={visualization} experimental-stickering={stickering} puzzle={event}></twisty-player>
             <h3>{name}</h3>
-            <p>{alg}</p>
+            <p style={{ marginBottom: '5px', fontSize: '14px' }}>{alg}</p>
         </div>
     )
 }
