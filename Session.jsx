@@ -1,6 +1,22 @@
 
 
 function Session({ times }) {
+    function formatTime(time) {
+        if (time == null) {
+            return '-'
+        }
+        let minutes = Math.floor(time / (1000 * 60) % 60)
+        let seconds = Math.floor(time / 1000 % 60)
+        let ms = Math.floor(time % 1000)
+        let formatted = ""
+
+        if (minutes == 0) {
+            formatted = `${seconds}.${String(ms).padStart(3, '0')}`
+        } else {
+            formatted = `${minutes}:${String(seconds).padStart(2, '0')}.${String(ms).padStart(3, '0')}`
+        }
+        return formatted
+    }
     return (
         <div style={{
             padding: '10px',
@@ -18,23 +34,14 @@ function Session({ times }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {[...times].reverse().map((time, index) => {
+                    {[...times].reverse().map((obj, index) => {
                         let realNumber = times.length - index
-                        let minutes = Math.floor(time / (1000 * 60) % 60)
-                        let seconds = Math.floor(time / 1000 % 60)
-                        let ms = Math.floor(time % 1000)
-                        let formatted = ""
-
-                        if (minutes == 0) {
-                            formatted = `${seconds}.${String(ms).padStart(3, '0')}`
-                        } else {
-                            formatted = `${minutes}:${String(seconds).padStart(2, '0')}.${String(ms).padStart(3, '0')}`
-                        }
-
+                    
                         return (
                             <tr key={index}>
                                 <td style={{ padding: '3px 5px' }}>{realNumber}.</td>
-                                <td style={{ padding: '3px 5px' }}>{formatted}</td>
+                                <td style={{ padding: '3px 5px' }}>{formatTime(obj.time)}</td>
+                                <td style={{ padding: '3px 5px' }}>{formatTime(obj.averageOfFive)}</td>
                             </tr>
                         )
                     })}
@@ -45,9 +52,3 @@ function Session({ times }) {
 }
 
 export default Session
-
-
-
-
-
-
