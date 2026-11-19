@@ -55,8 +55,10 @@ function Timer({ onStop }) {
     }
     
     function stop() {
+        const finalTime = Date.now() - startTimeRef.current
         setIsRunning(false)
-        onStop(elapsedTime)
+        setElapsedTime(finalTime)
+        onStop(finalTime)
     }
     
     function formatTime() {
@@ -89,7 +91,8 @@ function Timer({ onStop }) {
             alignSelf: 'stretch'
         }} onPointerDown={handlePressDown} onPointerUp={handleRelease}>
             <h1 style={{
-                fontSize: '50px',
+                fontSize: '60px',
+                textShadow: isReady ? '0 0 10px #00DD00, 0 0 20px #00AA00, 0 0 30px #00AA00' : isHolding ? '0 0 10px #790000, 0 0 20px #790000, 0 0 30px #790000' : '0 0 10px #777979, 0 0 20px #777979, 0 0 30px #777979',
                 color: isReady ? 'lime' : isHolding ? 'red' : 'white'
             }}>{formatTime()}</h1>
         </div>
