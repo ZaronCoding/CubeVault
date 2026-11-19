@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import 'cubing/twisty'
 
 function AlgCard({ alg, name, algSet }) {
     function handleVisualization(algSet) {
