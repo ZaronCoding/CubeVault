@@ -4,7 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CubeVault</title>
-    <script src="https://cdn.cubing.net/v0/js/cubing/twisty" type="module"></script>
+    <script type="importmap">
+    {
+      "imports": {
+        "cubing": "https://cdn.cubing.net/js/cubing/index.js",
+        "cubing/twisty": "https://cdn.cubing.net/js/cubing/twisty",
+        "cubing/scramble": "https://cdn.cubing.net/js/cubing/scramble"
+      }
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>
