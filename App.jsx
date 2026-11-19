@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { randomScrambleForEvent } from 'cubing/scramble'
 import Timer from './Timer'
 import Logo from './Logo'
 import Scramble from './Scramble'
