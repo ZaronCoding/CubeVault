@@ -32,14 +32,19 @@ function App() {
     const nextScrambleRef = useRef(null)
   
     useEffect(() => {
-        async function aLittleAsyncFunction() {
-            setScramble('Loading...')
+    async function aLittleAsyncFunction() {
+        setScramble('Loading...')
+        try {
             nextScrambleRef.current = await genScramble()
             setScramble(nextScrambleRef.current)
             nextScrambleRef.current = await genScramble()
+        } catch (e) {
+            setScramble('FEHLER: ' + e.message + ' | ' + e.toString())
+            console.error(e)
         }
-        aLittleAsyncFunction()
-    }, [event])
+    }
+    aLittleAsyncFunction()
+}, [event])
   
     useEffect(() => {
         localStorage.setItem('myTimes', JSON.stringify(time))
