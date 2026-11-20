@@ -33,14 +33,15 @@ function App() {
   
     useEffect(() => {
     async function aLittleAsyncFunction() {
-        setScramble('Loading...')
+        setScramble('TEST 1 - useEffect läuft!')
         try {
-            nextScrambleRef.current = await genScramble()
-            setScramble(nextScrambleRef.current)
+            setScramble('TEST 2 - vor cubing!')
+            const s = await randomScrambleForEvent(event)
+            setScramble('TEST 3 - cubing hat geantwortet: ' + s.toString())
+            nextScrambleRef.current = s.toString()
             nextScrambleRef.current = await genScramble()
         } catch (e) {
-            setScramble('FEHLER: ' + e.message + ' | ' + e.toString())
-            console.error(e)
+            setScramble('FEHLER: ' + e.message)
         }
     }
     aLittleAsyncFunction()
