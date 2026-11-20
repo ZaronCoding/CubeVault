@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react'
-import { randomScrambleForEvent } from 'cubing/scramble'
 import Timer from './Timer'
 import Logo from './Logo'
 import Scramble from './Scramble'
@@ -33,16 +32,10 @@ function App() {
   
     useEffect(() => {
     async function aLittleAsyncFunction() {
-        setScramble('TEST 1 - useEffect läuft!')
-        try {
-            setScramble('TEST 2 - vor cubing!')
-            const s = await randomScrambleForEvent(event)
-            setScramble('TEST 3 - cubing hat geantwortet: ' + s.toString())
-            nextScrambleRef.current = s.toString()
-            nextScrambleRef.current = await genScramble()
-        } catch (e) {
-            setScramble('FEHLER: ' + e.message)
-        }
+        const { randomScrambleForEvent } = await import('https://cdn.cubing.net/v0/js/cubing/scramble')
+        const s = await randomScrambleForEvent(event)
+        nextScrambleRef.current = s.toString()
+        nextScrambleRef.current = await genScramble()
     }
     aLittleAsyncFunction()
 }, [event])
